@@ -1,0 +1,29 @@
+name: npm Dev Plan and Build
+run-name: ${{ github.actor }} npm workflow - ${{ github.ref }}
+
+on: 
+  push:
+    branches:
+      - 'dev**'
+       
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v4
+        with:
+            name: react-build-dev
+            path: ./dist
