@@ -27,3 +27,18 @@ jobs:
         with:
             name: react-build-dev
             path: ./dist
+
+      - name: Update dev-build environment variable in infra repo
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }} # must have `repo` + `actions:write` scope
+          TARGET_REPO: bleecr7/azure-swa
+          LATEST_WEBAPP_DEV: ${{ github.run_id }}
+        run: |
+          echo "Updating LATEST_WEBAPP_DEV=${{ env.LATEST_WEBAPP_DEV }} in ${{ env.TARGET_REPO }}"
+          curl -L \
+          -X PATCH \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ env.GH_PAT }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ env.TARGET_REPO }}/actions/variables/LATEST_WEBAPP_DEV \
+          -d '{"name":"LATEST_WEBAPP_DEV","value":"${{ env.LATEST_WEBAPP_DEV }}"}'
