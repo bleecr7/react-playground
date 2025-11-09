@@ -1,0 +1,45 @@
+name: npm Prod Plan and Build
+run-name: ${{ github.actor }} npm workflow - ${{ github.ref }}
+
+on: 
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - 'main'
+       
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v4
+        with:
+            name: react-build
+            path: ./dist
+
+      - name: Update prod-build environment variable in infra repo
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }} # must have `repo` + `actions:write` scope
+          TARGET_REPO: bleecr7/azure-swa
+          LATEST_WEBAPP_PROD: ${{ github.run_id }}
+        run: |
+          echo "Updating LATEST_WEBAPP_PROD=${{ env.LATEST_WEBAPP_PROD }} in ${{ env.TARGET_REPO }}"
+          curl -L \
+          -X PATCH \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ env.GH_PAT }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ env.TARGET_REPO }}/actions/variables/LATEST_WEBAPP_PROD \
+          -d '{"name":"LATEST_WEBAPP_PROD","value":"${{ env.LATEST_WEBAPP_PROD }}"}'
