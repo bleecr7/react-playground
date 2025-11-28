@@ -31,7 +31,7 @@ const Footer = () => {
                   href="/blog"
                   className="text-muted-foreground hover:text-accent transition-colors"
                 >
-                  Blog
+                  Projects
                 </a>
               </li>
               <li>
