@@ -4,7 +4,6 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 
-/** @type {import('vite').UserConfig} */
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -19,7 +18,7 @@ export default defineConfig(({ mode }) => ({
       manifest: {
         name: "Brandon Lee - Portfolio",
         short_name: "Brandon Lee",
-        description: "Personal portfolio and blog of Brandon Lee, Cloud & AI Systems Architect",
+        description: "Personal portfolio for Brandon Lee, Cloud & Infrastructure Architect",
         theme_color: "#0C3FB0",
         background_color: "#F7FAFF",
         display: "standalone",
@@ -37,6 +36,7 @@ export default defineConfig(({ mode }) => ({
         ],
       },
       workbox: {
+        maximumFileSizeToCacheInBytes: 3000000,
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         runtimeCaching: [
           {
