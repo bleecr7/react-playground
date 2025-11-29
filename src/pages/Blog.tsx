@@ -11,7 +11,7 @@ const Blog = () => {
     {
       title: "React Web App",
       description:
-        "A React PWA used for my personal website - the one you're on right now!.",
+        "A React PWA used for my personal website - the one you're on right now!",
       technologies: ["React"],
       liveUrl: "https://brandonlee.cloud/",
       githubUrl: "https://github.com/bleecr7/react-playground",
@@ -22,7 +22,7 @@ const Blog = () => {
       description:
         "Terraform IaC used to deploy the full infrastructure stack behind my personal website.",
       technologies: ["Terragrunt", "Azure", "Cloudflare", "Github Actions"],
-      liveUrl: "https://brandonlee.cloud/",
+      liveUrl: "https://github.com/bleecr7/azure-swa",
       githubUrl: "https://github.com/bleecr7/azure-swa",
       image: TF,
     },
@@ -31,7 +31,7 @@ const Blog = () => {
       description:
         "Terraform IaC used to deploy the core shared infrastructure across all my projects.",
       technologies: ["Terraform", "Azure", "Cloudflare"],
-      liveUrl: "/",
+      liveUrl: "https://github.com/bleecr7/infra-playground",
       githubUrl: "https://github.com/bleecr7/infra-playground",
       image: TF,
     },
