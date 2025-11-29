@@ -48,7 +48,7 @@ const Home = () => {
     "Azure Solutions Architect Professional",
     "Azure Network Engineer Associate",
     "Google Generative AI Leader",
-    "Terraform Associate",
+    "Hashicorp Terraform Associate",
     "TOGAF Enterprise Architect",
     "FinOps Certified Practitioner",
   ];
