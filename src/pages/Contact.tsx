@@ -4,24 +4,69 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
   const { toast } = useToast();
+  const [result, setResult] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
+    access_key: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
-    });
-    setFormData({ name: "", email: "", message: "" });
+
+    const key = import.meta.env.VITE_FORM_PUBLIC_KEY;
+    if (!key) {
+      toast({ title: "Missing Key", description: "Form key is not configured." });
+      return;
+    }
+
+    const payload = { ...formData, access_key: key };
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const text = await response.json();
+        console.error("Form submit failed:", response.status, text);
+        setResult("Something went wrong. Please try again.");
+        toast({
+          title: "Something went wrong...",
+          description: text.message || `Status ${response.status}`,
+        });
+        return;
+      }
+
+      // attempt to parse JSON response
+      const data = await response.json().catch(() => null);
+      if (data && data.success) {
+        setResult("Message sent successfully!");
+        toast({
+          title: "Message Sent!",
+          description: "Thank you for reaching out. I'll get back to you soon.",
+        });
+        setFormData({ name: "", email: "", message: "", access_key: "" });
+      } else {
+        setResult("Something went wrong. Please try again.");
+        toast({
+          title: "Something went wrong...",
+          description: (data && data.message) || "Please resubmit your message.",
+        });
+      }
+    } catch (err) {
+      console.error("Network or parse error on form submit:", err);
+      setResult("Network error. Please try again later.");
+      toast({ title: "Network Error", description: "Unable to submit the form." });
+    }
   };
 
   return (
@@ -50,17 +95,17 @@ const Contact = () => {
           >
             <Card className="p-8">
               <h2 className="text-2xl font-bold mb-6">Send a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={onSubmit} className="space-y-6">
                 <div>
                   <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
                     placeholder="Your name"
                     value={formData.name}
+                    required
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    required
                   />
                 </div>
                 <div>
@@ -70,10 +115,10 @@ const Contact = () => {
                     type="email"
                     placeholder="your.email@example.com"
                     value={formData.email}
+                    required
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    required
                   />
                 </div>
                 <div>
@@ -82,11 +127,11 @@ const Contact = () => {
                     id="message"
                     placeholder="Tell me about your project..."
                     rows={6}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
                     required
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
                   />
                 </div>
                 <Button type="submit" className="w-full" size="lg">
