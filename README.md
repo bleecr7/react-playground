@@ -1,18 +1,35 @@
-# React + Vite
+# React Playground - React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+My personal website! A modern, responsive portfolio website built with React, TypeScript, Vite, and Tailwind CSS.
 
-Currently, two official plugins are available:
+[![npm Dev Plan and Build](https://github.com/bleecr7/react-playground/actions/workflows/npm-build-dev.yml/badge.svg?branch=dev)](https://github.com/bleecr7/react-playground/actions/workflows/npm-build-dev.yml)
+[![npm Prod Plan and Build](https://github.com/bleecr7/react-playground/actions/workflows/npm-build-prod.yml/badge.svg)](https://github.com/bleecr7/react-playground/actions/workflows/npm-build-prod.yml)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Screenshot of website landing page.](/src/assets/landing.png)
 
-## React Compiler
+## 🏗️ Project Architecture
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Tech Stack
 
-Note: This will impact Vite dev & build performances.
+- **Frontend Framework**: React 18.3 with TypeScript
+- **Build Tool**: Vite 7.2 with SWC (fast refresh)
+- **Styling**: Tailwind CSS 3.4 with custom animations
+- **Component Library**: shadcn/ui (Radix UI primitives)
+- **Routing**: React Router DOM 6.30
+- **Animation**: Framer Motion 12.23
+- **State Management**: TanStack React Query 5.83
+- **Theme**: next-themes (dark/light mode support)
+- **Form Validation**: React Hook Form + Zod
+- **UI Components**: Sonner (toast notifications), cmdk (command palette)
+- **PWA**: Vite PWA Plugin with Workbox
+- **Icons**: Lucide React 0.462
 
-## Expanding the ESLint configuration
+### Key Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
+- **Dark/Light Mode**: Theme switching via next-themes
+- **PWA Support**: Offline capability and installable web app
+- **Form Integration**: Contact form with web3forms backend API
+- **SEO & Performance**: Optimized bundle with Vite, PWA caching strategies
+- **Type Safety**: Full TypeScript coverage
+- **Accessibility**: Radix UI components with ARIA compliance
